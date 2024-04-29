@@ -14,7 +14,7 @@ Contains
 
 Calculate RPKM values, ratio of male to female expression for X chromosome and autosomes and generate figures
 
-   1.**dosage_script.R** 
+   1. **dosage_script.R** 
    
 To perform statistical tests 
 

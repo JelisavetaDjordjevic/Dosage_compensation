@@ -13,10 +13,11 @@ Contains
 *To analyze Dosage compensation*
 
 Calculate RPKM values, ratio of male to female expression for X chromosome and autosomes and generate figures
-1.
-   **dosage_script.R** 
+1.**dosage_script.R** 
    
-To calculate specificity of gene expression (Tau index) 
+To perform statistical tests 
+2. **dosage_stats.R**
 
-2. ** **
+To calculate specificity of gene expression (Tau index) 
+3. ** **
 

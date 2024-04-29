@@ -37,7 +37,7 @@ process_stage <- function(stage_name, pattern, tissue) {
 }
 
 # Read data
-counts <- read.csv("/Users/jdjordje/Documents/GitHub/Dosage_compensation/dosage_counts.csv")
+counts <- read.csv("/Users/jdjordje/Documents/GitHub/Dosage_compensation/dosage_counts.csv",sep = "\t")
 scaffold_gene_size <- read.csv("/Users/jdjordje/Documents/GitHub/Dosage_compensation/scaffold_gene_size_temp.txt", sep = "")
 
 # Rename columns

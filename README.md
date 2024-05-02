@@ -24,3 +24,6 @@ To calculate specificity of gene expression (Tau index)
 
    3. ** **
 
+To plot the coverage across scaffolds for H3K9 chip seq data
+   4. **Chip_seq_H3K9_figures.R**
+

@@ -20,16 +20,26 @@ read_and_correct_coverage <- function(input_file, h3k9_file, lib_size_input, lib
   return(df)
 }
 
-# Function to plot data
+
+### plot with smoothing
+
 plot_data <- function(df) {
+  # Extract numeric scaffold number from scaffold name
   df$scaff_number <- as.numeric(gsub("^.*scf", "", df$scaff))
   
+  # Order dataframe by scaffold number and start position
   df2 <- df[order(df$scaff_number, df$start),]
+  
+  # Generate cumulative start positions spaced by 30,000
   df2$cumul_start <- seq(0, by = 30000, length.out = nrow(df2))
+  
+  # Assign chromosome type based on scaffold number
   df2$chrom <- ifelse(df2$scaff_number == 3, "sex-chrom", "autosome")
+  
+  # Subset data for sex chromosome (scaffold number 3)
   df3 <- df2[df2$scaff_number == 3,]
-
-#modify y limits    
+  
+  # Create plot using ggplot2
   ggplot(df2, aes(x = cumul_start, y = log2ratio, color = as.factor(scaff_number))) +
     geom_point(size = 0.5) +
     scale_color_manual(values = rep(c("black", "grey"), length(levels(as.factor(df2$scaff_number))) / 2)) +
@@ -37,32 +47,28 @@ plot_data <- function(df) {
     geom_point(data = df3, aes(x = cumul_start, y = log2ratio), colour = "blue", size = 0.5) +
     ylab("log2(H3K9/Input)") +
     xlab("Genomic coordinates") +
-    geom_hline(yintercept = c(-0.5, 0, 0.5), linetype = c("dashed", "solid", "dashed"), color = "black") +
+    #ggtitle("Males testes") +
+    geom_hline(yintercept = 0, linetype = "solid", color = "black") +
     theme(
       axis.ticks.x = element_blank(),
       panel.background = element_blank(),
       axis.line = element_line(colour = "black"),
-      legend.position = "none"
-    )
+      legend.position = "none",
+      axis.text = element_text(size = 18),
+      axis.title = element_text(size = 20)
+    ) +
+    geom_smooth(aes(group = scaff_number), colour = "white")
 }
 
 # Data frame that contains scaffold information start and end of each 30K window and covearge
 # Testes data
-testes_input <- "~/Desktop/Tps_testes_input1_GW_coverage_30K_windows_DR.txt"
-testes_h3k9 <- "~/Desktop/Tps_testes_h3k9A_GW_coverage_30K_windows_DR.txt"
+testes_input <- "/Users/jdjordje/Documents/GitHub/Dosage_compensation/Data/Tps_testes_input1_GW_coverage_30K_windows_DR.txt"
+testes_h3k9 <- "/Users/jdjordje/Documents/GitHub/Dosage_compensation/Data/Tps_testes_h3k9A_GW_coverage_30K_windows_DR.txt"
 lib_size_testes_h3k9 <- 57363039 
 lib_size_testes_input <- 53495659
 
 # Plot testes data
 testes_df <- read_and_correct_coverage(testes_input, testes_h3k9, lib_size_testes_input, lib_size_testes_h3k9)
 plot_data(testes_df)
+plot_testes<-plot_data(testes_df)
 
-# Males somatic data
-input_males_somatic <- "~/Desktop/Tps_male_organs_input3_GW_coverage_30W_DR.txt"
-males_somatic_h3k9 <- "~/Desktop/Tps_male_organs_h3k9A_GW_coverage_30W_DR.txt"
-lib_size_male_somatic_H3K9 <- 62833968
-lib_size_male_somatic_input <- 78355731
-
-# Plot males somatic data
-males_somatic_df <- read_and_correct_coverage(input_males_somatic, males_somatic_h3k9, lib_size_male_somatic_input, lib_size_male_somatic_H3K9)
-plot_data(males_somatic_df)

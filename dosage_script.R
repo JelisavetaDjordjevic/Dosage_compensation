@@ -37,8 +37,8 @@ process_stage <- function(stage_name, pattern, tissue) {
 }
 
 # Read data
-counts <- read.csv("/Users/jdjordje/Documents/GitHub/Dosage_compensation/dosage_counts.csv",sep = "\t")
-scaffold_gene_size <- read.csv("/Users/jdjordje/Documents/GitHub/Dosage_compensation/scaffold_gene_size_temp.txt", sep = "")
+counts <- read.csv("/Users/jdjordje/Documents/GitHub/Dosage_compensation/Data/dosage_counts.csv",sep = "\t")
+scaffold_gene_size <- read.csv("/Users/jdjordje/Documents/GitHub/Dosage_compensation/Data/scaffold_gene_size_temp.txt", sep = "")
 
 # Rename columns
 for (col in 1:ncol(counts)) {
@@ -100,6 +100,11 @@ dosage_all$stage <- ifelse(dosage_all$stage == "hatchling", "N1",
                                          ifelse(dosage_all$stage == "juv4", "N4",
                                                 ifelse(dosage_all$stage == "adult", "A", dosage_all$stage)))))
 
+dosage_all$tissue <- ifelse(dosage_all$tissue == "antenna", "Antenna",
+                           ifelse(dosage_all$tissue == "brain", "Brain",
+                                  ifelse(dosage_all$tissue == "gut", "Gut",
+                                         ifelse(dosage_all$tissue == "leg", "Leg",
+                                                ifelse(dosage_all$tissue == "gonad", "Gonad", dosage_all$tissue)))))
 #relevel
 dosage_all$stage <-factor(dosage_all$stage,
                    levels = c('N1','N2','N3','N4','A'),ordered = TRUE)
@@ -114,10 +119,14 @@ p <- ggplot(dosage_all, aes(x = stage, y = m_f_rpkm, fill = chrom)) +
   geom_hline(yintercept = 0, linetype = "solid", color = "black") +
   geom_hline(yintercept = -1, linetype = "dashed", color = "black") +
   ylim(-4, 4) +
-  ylab("log2(M_average_RPKM/F_average_RPKM)") + 
+  ylab("log2(Male RPKM/Female RPKM)") + 
+  xlab("Developmental stage")+
   facet_wrap(~tissue, scales = "free_y", ncol = 1) +
-  ggtitle("Expression Variation Across Tissues") +
-  scale_fill_manual(values = c("gray", "orange"))
+  #ggtitle("Expression Variation Across Tissues") +
+  scale_fill_manual(values = c("gray", "orange"),
+                    labels=c('Autosome', 'X'))+
+  theme_bw(base_size = 16) +
+  theme(legend.title = element_blank())
 
 print(p)
 
@@ -140,9 +149,9 @@ somatic_avr <- ggplot(melted_data, aes(x = stage, y = value, fill = average_valu
   xlab("Developmental stage")+
   ylim(0, 80)+ # Modify the y-axis limits as needed
   scale_fill_manual(values=c("gray","white","red","blue"),
-                    labels=c('Autosome (F)', 'Autosomes (M)', 'X (F)', 'X (M)'))+
+                    labels=c('Autosome (F)', 'Autosome (M)', 'X (F)', 'X (M)'))+
   facet_wrap(~tissue, ncol = 1) +
-  theme_bw(base_size = 16) +
+  theme_bw(base_size = 16)+
   theme(legend.title = element_blank())
 
 # Print the plot
@@ -188,10 +197,14 @@ gon_ratio <- ggplot(dosage_gon, aes(x = stage, y = m_f_rpkm, fill = chrom)) +
   geom_hline(yintercept = 0, linetype = "solid", color = "black") +
   geom_hline(yintercept = -1, linetype = "dashed", color = "black") +
   ylim(-4, 4) +
-  ylab("log2(M_average_RPKM/F_average_RPKM)") + 
+  ylab("log2(Male RPKM/ Female RPKM)") + 
+  xlab("Developmental stage")+
   #facet_wrap(~tissue, scales = "free_y", ncol = 1) +
   ggtitle("Gonads") +
-  scale_fill_manual(values = c("gray", "orange"))
+  scale_fill_manual(values = c("gray", "orange"),
+                    labels=c('Autosome','X'))+
+  theme_bw(base_size = 16)+
+  theme(legend.title = element_blank())
 
 print(gon_ratio)
 
@@ -215,7 +228,7 @@ gonad_avr <- ggplot(melted_data_gon, aes(x = stage, y = value, fill = sex_chrom)
   xlab("Developmental stage")+
   ylim(0, 80)+ # Modify the y-axis limits as needed
   scale_fill_manual(values=c("gray","white","red","blue"),
-                    labels=c('Autosome (F)', 'Autosomes (M)', 'X (F)', 'X (M)'))+
+                    labels=c('Autosome (F)', 'Autosome (M)', 'X (F)', 'X (M)'))+
   #facet_wrap(~tissue, ncol = 1) +
   theme_bw(base_size = 16) +
   theme(legend.title = element_blank())
@@ -270,5 +283,5 @@ ggdraw() +
   draw_plot(gon_ratio, x = 0, y = .5, width = .5, height = .5) +
   draw_plot(gonad_avr, x = .5, y = .5, width = .5, height = .5) +
   draw_plot(gon_dens, x = 0, y = 0, width = 1, height = 0.5) +
-  draw_plot_label(label = c("A)", "B)", "C)"), size = 15,
+  draw_plot_label(label = c("A)", "B)", "C)"), size = 16,
                   x = c(0, 0.5, 0), y = c(1, 1, 0.5))

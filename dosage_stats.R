@@ -37,8 +37,8 @@ process_stage <- function(stage_name, pattern, tissue) {
 }
 
 # Read data
-counts <- read.csv("/Users/jdjordje/Documents/GitHub/Dosage_compensation/dosage_counts.csv", sep = "\t")
-scaffold_gene_size <- read.csv("/Users/jdjordje/Documents/GitHub/Dosage_compensation/scaffold_gene_size_temp.txt", sep = "")
+counts <- read.csv("/Users/jdjordje/Documents/GitHub/Dosage_compensation/data/dosage_counts.csv", sep = "\t")
+scaffold_gene_size <- read.csv("/Users/jdjordje/Documents/GitHub/Dosage_compensation/data/scaffold_gene_size_temp.txt", sep = "")
 
 # Rename columns
 for (col in 1:ncol(counts)) {
@@ -136,3 +136,4 @@ stats_averageRPKM <- map_dfr(tissues, ~ {
 # Save results as a table
 write.table(stats_ratio, file = "stats_dosage_ratio.txt", sep = "\t", row.names = FALSE)
 write.table(stats_averageRPKM, file = "stats_dosage_average_rpkm.txt", sep = "\t", row.names = FALSE)
+getwd()

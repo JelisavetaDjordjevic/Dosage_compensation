@@ -24,7 +24,7 @@ To perform statistical tests
 
 To calculate specificity of gene expression (Tau index) 
 
-   3. ** **
+   3. **X_tau.R**
 
 To plot the coverage across scaffolds for H3K9 chip seq data
 

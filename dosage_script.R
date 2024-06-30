@@ -124,7 +124,7 @@ p <- ggplot(dosage_all, aes(x = stage, y = m_f_rpkm, fill = chrom)) +
   facet_wrap(~tissue, scales = "free_y", ncol = 1) +
   #ggtitle("Expression Variation Across Tissues") +
   scale_fill_manual(values = c("gray", "orange"),
-                    labels=c('Autosome', 'X'))+
+                    labels=c('Autosomes', 'X'))+
   theme_bw(base_size = 16) +
   theme(legend.title = element_blank())
 
@@ -149,7 +149,7 @@ somatic_avr <- ggplot(melted_data, aes(x = stage, y = value, fill = average_valu
   xlab("Developmental stage")+
   ylim(0, 80)+ # Modify the y-axis limits as needed
   scale_fill_manual(values=c("gray","white","red","blue"),
-                    labels=c('Autosome (F)', 'Autosome (M)', 'X (F)', 'X (M)'))+
+                    labels=c('Autosomes (F)', 'Autosomes (M)', 'X (F)', 'X (M)'))+
   facet_wrap(~tissue, ncol = 1) +
   theme_bw(base_size = 16)+
   theme(legend.title = element_blank())
@@ -202,7 +202,7 @@ gon_ratio <- ggplot(dosage_gon, aes(x = stage, y = m_f_rpkm, fill = chrom)) +
   #facet_wrap(~tissue, scales = "free_y", ncol = 1) +
   ggtitle("Gonads") +
   scale_fill_manual(values = c("gray", "orange"),
-                    labels=c('Autosome','X'))+
+                    labels=c('Autosomes','X'))+
   theme_bw(base_size = 16)+
   theme(legend.title = element_blank())
 
@@ -228,7 +228,7 @@ gonad_avr <- ggplot(melted_data_gon, aes(x = stage, y = value, fill = sex_chrom)
   xlab("Developmental stage")+
   ylim(0, 80)+ # Modify the y-axis limits as needed
   scale_fill_manual(values=c("gray","white","red","blue"),
-                    labels=c('Autosome (F)', 'Autosome (M)', 'X (F)', 'X (M)'))+
+                    labels=c('Autosomes (F)', 'Autosomes (M)', 'X (F)', 'X (M)'))+
   #facet_wrap(~tissue, ncol = 1) +
   theme_bw(base_size = 16) +
   theme(legend.title = element_blank())

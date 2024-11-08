@@ -30,3 +30,7 @@ To plot the coverage across scaffolds for H3K9 chip seq data
 
    4. **Chip_seq_H3K9_figures.R**
 
+To calculate sex-bias gene expression in Gonad tissue
+   5. **Sex_bias_gonads.R**
+   
+
